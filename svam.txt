@@ -1,0 +1,144 @@
+<?php
+error_reporting(E_ALL);
+/*
+
+You are standing at the start of an array of integers. You want to move to the end of the array, collecting as many points as possible along the way. Each step can cover a maximum number of elements. Each time you land on an element, its value is added to your score.   ?
+
+For example, you are at position 0 of the array path = [10, 2, -10, 5, 20]. Your maximum step can cover k=2 elements. Your score starts at 10, the value at index 0. Your first step could land you on elements valued 2 or -10. You choose to land on 2 to achieve the higher score, now 10+2=12. Next you choose between landing on -10 or 5. You choose 5 for a score of 12+5=17. You make one final move to your goal and your total score is 17+20=37.
+
+Function Description
+
+Complete the function journey in the editor below. The function must return a long integer denoting your maximum attainable score.
+
+
+journey has the following parameter(s):
+
+    path[path[0],...path[n-1]]:  an array of integers
+
+    k:  an integer, the maximum step length
+
+Constraints
+
+1 ≤ n ≤ 105
+0 ≤ |path[i]| ≤ 105, where 0 ≤ i < n and |x| denotes absolute value of x.
+1 ≤ k ≤ n
+
+Input Format for Custom Testing
+
+Input from stdin will be processed as follows and passed to the function.
+
+The first line contains an integer n, the size of the array path.
+
+Each of the next n lines contains an integer path[i] where 0 ≤ i < n.
+
+The last line contains the integer k.
+
+Sample Case
+
+
+Sample Input
+
+3
+10
+-20
+-5
+2
+
+
+Sample Output
+
+5
+
+
+Explanation
+
+https://s3.amazonaws.com/istreet-assets/LHnOH5XcCUr3sSjmlCnw7Q/294409-array-journey-0.png
+
+The initial value of total is 10, and you can move forward a maximum of k = 2 cells in any movement. The two possible journeys through the array are as follows:
+
+From cell 0, you can move to either cell 1 or cell 2:
+
+If you move to cell 1, then total = 10 + -20 = -10. Because you haven't yet reached the end of path, you must then move forward to cell 2. After the second (and final) move, total = -10 + -5 = -15 in this scenario.
+If you move to cell 2, then total = 10 + -5 = 5. There are no more cells to visit, so the final value of total is 5 in this scenario.
+Because the maximum possible value of total = path[0] + path[2] = 10 + -5 = 5, the function returns 5.
+
+*/
+
+
+print(date("Y-m-d h:i:s")."\n");
+
+/*
+3
+10
+-20
+-5
+2
+*/
+
+
+function maximumAttainableScore($arr, $n, $k, $i) {
+
+    $begin = 0;
+    $result = 0; // initialize value
+
+    // creating recursive
+    if ($k > $i) { $begin = 0; }
+    else { $begin = $i - $k; }
+
+    // getting abs values  values
+    for ($j = $begin; $j <= $begin + $k && $j < $n; $j++) {
+        $result += abs($arr[$j]);
+    }
+
+    // storing value for logic
+    $curr_sum = $result;
+
+    for ($j = $begin + $k + 1; $j < $n && $j <= $i + $k; $j++) {
+        $curr_sum += $arr[$j] - $arr[$j - $k - 1];
+        $result = max($result, $curr_sum);
+    }
+
+    return $result;
+}
+
+
+/*
+3
+10
+-20
+-5
+2
+*/
+
+    // testing
+
+    $arr = array(10,-20,-5);
+    $n = count($arr); // becomes 3
+    $k = 2; $i = $n; // steps and start index
+
+    $output = maximumAttainableScore($arr, $n, $k - 1, $i);
+    print_r($arr);
+    print("\n");
+    print($output);
+
+    print("\n\n\n\n");
+    // constrains
+
+    $len = 3;   // total number of numbers
+    $min = -20;  // minimum
+    $max = 10;  // maximum
+    $range = []; // initialize array
+    foreach (range(0, $len - 1) as $i) {
+        while(in_array($num = mt_rand($min, $max), $range));
+        $range[] = $num;
+    }
+    print_r($range);
+    $arr = $range;
+    $n = count($arr); // becomes 3
+    $k = 2; $i = $n; // steps and start index
+
+    $output = maximumAttainableScore($arr, $n, $k - 1, $i);
+    print("\n");
+    print($output);
+
+?>
